@@ -1,0 +1,66 @@
+<odoo>
+    <record id="view_ai_meeting_assistant_list" model="ir.ui.view">
+        <field name="name">ai.meeting.assistant.list</field>
+        <field name="model">ai_meeting_assistant.ai_meeting_assistant</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="recording_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ai_meeting_assistant_form" model="ir.ui.view">
+        <field name="name">ai.meeting.assistant.form</field>
+        <field name="model">ai_meeting_assistant.ai_meeting_assistant</field>
+        <field name="arch" type="xml">
+            <form string="Meeting Recording">
+                <header>
+                    <button name="action_process_meeting"
+                            type="object"
+                            string="Process Meeting"
+                            class="btn-primary"/>
+
+                    <field name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,processing,processed,error"/>
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="audio_file" filename="audio_filename"/>
+                        <field name="audio_filename" invisible="1"/>
+                        <field name="recording_date"/>
+                        <field name="complementary_info"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Transcript">
+                            <field name="transcript"/>
+                        </page>
+                        <page string="Summary">
+                            <field name="summary"/>
+                        </page>
+                        <page string="Action Points">
+                            <field name="action_points"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ai_meeting_assistant" model="ir.actions.act_window">
+        <field name="name">AI Meeting Assistant</field>
+        <field name="res_model">ai_meeting_assistant.ai_meeting_assistant</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Important: root menu has action -->
+    <menuitem id="menu_ai_meeting_root"
+              name="AI Meeting Assistant"
+              action="action_ai_meeting_assistant"
+              sequence="10"/>
+</odoo>
